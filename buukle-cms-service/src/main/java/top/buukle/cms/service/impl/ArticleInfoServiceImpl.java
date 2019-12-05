@@ -7,6 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import top.buukle.cms.dao.ArticleInfoMapper;
 import top.buukle.cms.entity.ArticleInfo;
 import top.buukle.cms.entity.ArticleInfoExample;
@@ -71,6 +74,7 @@ public class ArticleInfoServiceImpl implements ArticleInfoService {
      * @return
      */
     @Override
+    @Transactional(propagation = Propagation.REQUIRED,isolation= Isolation.DEFAULT ,rollbackFor = Exception.class)
     public CommonResponse save(ArticleInfoQuery query, HttpServletRequest request) {
         articleInfoMapper.insert(this.assQueryForInsert(query,request));
         return new CommonResponse.Builder().buildSuccess();
@@ -83,6 +87,7 @@ public class ArticleInfoServiceImpl implements ArticleInfoService {
      * @return
      */
     @Override
+    @Transactional(propagation = Propagation.REQUIRED,isolation= Isolation.DEFAULT ,rollbackFor = Exception.class)
     public CommonResponse delete(ArticleInfoQuery query, HttpServletRequest request) {
         if(articleInfoMapper.updateByPrimaryKeySelective(this.assQueryForUpdateStatus(query, ArticleEnums.status.DELETED.value(),request)) != 1){
             throw new SystemException(SystemReturnEnum.DELETE_INFO_EXCEPTION);
@@ -98,6 +103,7 @@ public class ArticleInfoServiceImpl implements ArticleInfoService {
      * @return
      */
     @Override
+    @Transactional(propagation = Propagation.REQUIRED,isolation= Isolation.DEFAULT ,rollbackFor = Exception.class)
     public CommonResponse update(ArticleInfoQuery query, HttpServletRequest request) {
         ArticleInfoExample articleInfoExample = new ArticleInfoExample();
         ArticleInfoExample.Criteria criteria = articleInfoExample.createCriteria();

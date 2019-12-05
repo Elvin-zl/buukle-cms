@@ -9,11 +9,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 import org.springframework.session.web.http.CookieSerializer;
 import org.springframework.session.web.http.DefaultCookieSerializer;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @MapperScan({"top.buukle.cms.dao","top.buukle.common.mvc"})
 @SpringBootApplication(scanBasePackages={"top.buukle.cms.*"})
 @EnableFeignClients(basePackages = {"top.buukle.*"})
 @EnableRedisHttpSession
+@EnableTransactionManagement
 public class CmsApplication {
     private static volatile boolean RUNNING = true;
     public static void main(String[] args) {
